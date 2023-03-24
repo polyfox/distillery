@@ -40,7 +40,14 @@ defmodule Distillery.Mixfile do
   end
 
   def application do
-    [extra_applications: [:runtime_tools]]
+    [
+      extra_applications: [
+        :runtime_tools,
+        :sasl,
+        :crypto,
+        :eex,
+      ],
+    ]
   end
 
   defp deps do

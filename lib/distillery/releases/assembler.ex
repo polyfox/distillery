@@ -220,7 +220,7 @@ defmodule Distillery.Releases.Assembler do
     end
   rescue
     e in [File.Error] ->
-      {:error, {:assembler, {e, System.stacktrace()}}}
+      {:error, {:assembler, {e, __STACKTRACE__}}}
   catch
     :error, {:assembler, _mod, _reason} = err ->
       {:error, err}
@@ -655,7 +655,7 @@ defmodule Distillery.Releases.Assembler do
                {:ok, tokens, _} <- :erl_scan.string(String.to_charlist(templated)),
                {:ok, sys_config} <- :erl_parse.parse_term(tokens),
                :ok <- validate_sys_config(sys_config),
-               merged <- Mix.Config.merge(base_config, sys_config) do
+               merged <- Elixir.Config.Reader.merge(base_config, sys_config) do
             merged
           else
             err ->
